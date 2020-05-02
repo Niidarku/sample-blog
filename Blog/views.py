@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from datetime import timezone
+from django.utils import timezone
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.urls import reverse_lazy
@@ -55,10 +55,10 @@ class DraftListView(LoginRequiredMixin, ListView):
 
 
 #########################################################################################
-@login_required 
+@login_required
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.publish 
+    post.publish
     return redirect('post_detail', pk=pk)
 
 
@@ -84,10 +84,9 @@ def comment_approve(request, pk):
     return redirect('post_detail', pk=comment.post.pk)
 
 
-
-@login_required 
-def comment_remove(request,pk):
-    comment = get_object_or_404(Comment,pk=pk)
-    post_pk = comment.post.pk 
+@login_required
+def comment_remove(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    post_pk = comment.post.pk
     comment.delete()
     return redirect('post_detail', pk=post_pk)
